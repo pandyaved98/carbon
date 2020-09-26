@@ -1,11 +1,7 @@
 import React from 'react'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop'
-import { useLocalStorage } from 'actionsack'
 
-import RandomImage from './RandomImage'
-import PhotoCredit from './PhotoCredit'
 import Input from './Input'
-import Toggle from './Toggle'
 import { Link } from './Meta'
 import { fileToDataURL } from '../lib/util'
 import ApiContext from './ApiContext'
@@ -202,14 +198,6 @@ export default class ImagePicker extends React.Component {
           )}
           {this.state.error && <span className="error">{this.state.error}</span>}
         </div>
-        <hr />
-        <div className="random-image">
-          <span>
-            Or use a random <a href="https://unsplash.com/">Unsplash</a> image:
-          </span>
-          <RandomImage onChange={this.selectImage} />
-          <GeneratePaletteSetting onChange={value => (this.generateColorPalette = value)} />
-        </div>
         <style jsx>
           {`
             button {
@@ -290,7 +278,6 @@ export default class ImagePicker extends React.Component {
               minWidth={10}
               keepSelection
             />
-            {this.state.photographer && <PhotoCredit photographer={this.state.photographer} />}
           </div>
           <style jsx>
             {`
@@ -349,18 +336,4 @@ export default class ImagePicker extends React.Component {
       </div>
     )
   }
-}
-
-function GeneratePaletteSetting({ onChange }) {
-  const [enabled, setEnabled] = useLocalStorage('CARBON_GENERATE_COLOR_PALETTE')
-  React.useEffect(() => void onChange(enabled), [enabled, onChange])
-
-  return (
-    <Toggle
-      label="Generate color palette (beta)"
-      enabled={enabled}
-      onChange={setEnabled}
-      padding="8px 0 0"
-    />
-  )
 }
