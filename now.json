@@ -1,5 +1,5 @@
 {
-  "alias": "codetch.vercel.app",
+  "alias": "lithograph.vercel.app",
   "version": 2,
   "public": true,
   "builds": [{ "src": "package.json", "use": "@now/next" }],
