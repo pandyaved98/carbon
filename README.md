@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This is a spin-off of the popular [Carbon](/carbon-app/carbon) project, focused on providing an offline experience.
+A code snippet designer. Focused on running locally and offline.
 
 ## Usage
 
