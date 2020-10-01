@@ -1,15 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
-import { THEMES, THEMES_HASH, COLORS } from '../lib/constants'
+import { COLORS } from '../lib/constants'
 import Reset from './style/Reset'
 import Font from './style/Font'
 import Typography from './style/Typography'
-
-const HIGHLIGHTS_ONLY = ['shades-of-purple', 'vscode', 'a11y-dark']
-const LOCAL_STYLESHEETS = ['one-light', 'one-dark', 'verminal', 'night-owl', 'nord', 'synthwave-84']
-const CDN_STYLESHEETS = THEMES.filter(
-  t => LOCAL_STYLESHEETS.indexOf(t.id) < 0 && HIGHLIGHTS_ONLY.indexOf(t.id) < 0
-)
 
 export function Link({ href }) {
   return (
@@ -18,18 +12,6 @@ export function Link({ href }) {
       <link rel="stylesheet" href={href} />
     </Head>
   )
-}
-
-export const StylesheetLink = ({ theme }) => {
-  let href
-  if (LOCAL_STYLESHEETS.indexOf(theme) > -1) {
-    href = `/static/themes/${theme}.min.css`
-  } else {
-    const themeDef = THEMES_HASH[theme]
-    href = `/static/themes/${themeDef && (themeDef.link || themeDef.id)}.min.css`
-  }
-
-  return <Link href={href} />
 }
 
 export const CodeMirrorLink = () => <Link href="/static/css/codemirror.min.css" />
@@ -62,15 +44,7 @@ export const MetaTags = React.memo(() => (
 export const MetaLinks = React.memo(() => {
   return (
     <React.Fragment>
-      <Link href="/static/themes/seti.min.css" />
       <CodeMirrorLink />
-      {LOCAL_STYLESHEETS.map(id => (
-        <Link key={id} href={`/static/themes/${id}.min.css`} />
-      ))}
-      {CDN_STYLESHEETS.map(themeDef => {
-        const href = `/static/themes/${themeDef && (themeDef.link || themeDef.id)}.min.css`
-        return <Link key={themeDef.id} href={href} />
-      })}
     </React.Fragment>
   )
 })
