@@ -13,7 +13,7 @@
 
 ## Introduction
 
-A code snippet designer. Focused on running locally and offline.
+A code snippet designer. Focused on running locally and offline. Based on [Carbon](/carbon-app/carbon).
 
 ## Usage
 
