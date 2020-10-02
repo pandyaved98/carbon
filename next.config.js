@@ -9,7 +9,7 @@ module.exports = withBundleAnalyzer(
     dontAutoRegisterSw: true,
     // https://github.com/hanford/next-offline/blob/master/packages/now2-example/next.config.js
     workboxOpts: {
-      swDest: 'static/service-worker.js',
+      swDest: 'service-worker.js',
     },
     webpack: (config, options) => {
       config.module.rules.push({
