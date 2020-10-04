@@ -12,7 +12,6 @@ import Toolbar from './Toolbar'
 import Overlay from './Overlay'
 import BackgroundSelect from './BackgroundSelect'
 import Carbon from './Carbon'
-import ExportMenu from './ExportMenu'
 import CopyMenu from './CopyMenu'
 import Themes from './Themes'
 import TweetButton from './TweetButton'
@@ -23,9 +22,7 @@ import {
   LANGUAGE_MIME_HASH,
   LANGUAGE_MODE_HASH,
   LANGUAGE_NAME_HASH,
-  DEFAULT_EXPORT_SIZE,
   COLORS,
-  EXPORT_SIZES_HASH,
   DEFAULT_CODE,
   DEFAULT_SETTINGS,
   DEFAULT_LANGUAGE,
@@ -103,12 +100,7 @@ class Editor extends React.Component {
   updateWidth = width => this.setState({ widthAdjustment: false, width })
 
   getCarbonImage = async (
-    {
-      format,
-      type,
-      squared = this.state.squaredImage,
-      exportSize = (EXPORT_SIZES_HASH[this.state.exportSize] || DEFAULT_EXPORT_SIZE).value,
-    } = { format: 'png' }
+    { format, type, squared = this.state.squaredImage } = { format: 'png' }
   ) => {
     // if safari, get image from api
     const isPNG = format !== 'svg'
@@ -136,12 +128,12 @@ class Editor extends React.Component {
     //   })
     // }
 
-    const width = node.offsetWidth * exportSize
-    const height = squared ? node.offsetWidth * exportSize : node.offsetHeight * exportSize
+    const width = node.offsetWidth
+    const height = squared ? node.offsetWidth : node.offsetHeight
 
     const config = {
       style: {
-        transform: `scale(${exportSize})`,
+        transform: `scale(1)`,
         'transform-origin': 'center',
         background: squared ? this.state.backgroundColor : 'none',
       },
@@ -206,25 +198,6 @@ class Editor extends React.Component {
     this.getCarbonImage({ format: 'png' }).then(
       this.context.tweet.bind(null, this.state.code || DEFAULT_CODE)
     )
-  }
-
-  exportImage = (format = 'png', options = {}) => {
-    const link = document.createElement('a')
-
-    const prefix = options.filename || this.state.name || 'carbon'
-
-    return this.getCarbonImage({ format, type: 'objectURL' }).then(url => {
-      if (format !== 'open') {
-        link.download = `${prefix}.${format}`
-      }
-      if (this.isFirefox) {
-        link.target = '_blank'
-      }
-      link.href = url
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
-    })
   }
 
   copyImage = () =>
@@ -341,7 +314,6 @@ class Editor extends React.Component {
       backgroundImage,
       backgroundMode,
       code,
-      exportSize,
     } = this.state
 
     const config = getConfig(this.state)
@@ -393,12 +365,6 @@ class Editor extends React.Component {
             <div className="buttons">
               <CopyMenu copyImage={this.copyImage} carbonRef={this.carbonNode.current} />
               <TweetButton onClick={this.tweet} />
-              <ExportMenu
-                onChange={this.updateSetting}
-                exportImage={this.exportImage}
-                exportSize={exportSize}
-                backgroundImage={backgroundImage}
-              />
             </div>
           </div>
         </Toolbar>
