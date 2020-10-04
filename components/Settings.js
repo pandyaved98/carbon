@@ -12,7 +12,7 @@ import Button from './Button'
 import Presets from './Presets'
 import MenuButton from './MenuButton'
 import { COLORS, DEFAULT_PRESETS, DEFAULT_SETTINGS, DEFAULT_WIDTHS } from '../lib/constants'
-import { toggle, getPresets, savePresets, generateId, fileToJSON } from '../lib/util'
+import { toggle, getPresets, savePresets, fileToJSON } from '../lib/util'
 import SettingsIcon from './svg/Settings'
 
 function KeyboardShortcut({ trigger, handle }) {
@@ -341,29 +341,6 @@ class Settings extends React.PureComponent {
     )
   }
 
-  createPreset = async () => {
-    const newPreset = this.getSettingsFromProps()
-
-    newPreset.id = `preset:${generateId()}`
-    newPreset.custom = true
-
-    newPreset.icon = await this.props.getCarbonImage({
-      format: 'png',
-      squared: true,
-      exportSize: 1,
-    })
-
-    this.props.onChange('preset', newPreset.id)
-
-    this.setState(
-      ({ presets }) => ({
-        previousSettings: null,
-        presets: [newPreset, ...presets],
-      }),
-      this.savePresets
-    )
-  }
-
   savePresets = () => savePresets(this.state.presets.filter(p => p.custom))
 
   renderContent = () => {
@@ -453,7 +430,6 @@ class Settings extends React.PureComponent {
             apply={this.applyPreset}
             undo={this.undoPreset}
             remove={this.removePreset}
-            create={this.createPreset}
             applied={!!previousSettings}
           />
           <div className="settings-bottom">

@@ -72,28 +72,13 @@ const arrowButtonStyle = {
 }
 
 const Presets = React.memo(
-  ({ show, create, toggle, undo, presets, selected, remove, apply, applied, contentRef }) => {
+  ({ show, toggle, undo, presets, selected, remove, apply, applied, contentRef }) => {
     const customPresetsLength = presets.length - DEFAULT_PRESETS.length
-
-    const disabledCreate = selected != null
 
     return (
       <div className="settings-presets">
         <div className="settings-presets-header">
           <span>Presets</span>
-          {show && (
-            <Button
-              margin="0 0 0 8px"
-              flex="0 0 54px"
-              color={COLORS.GRAY}
-              hoverBackground="transparent"
-              hoverColor={disabledCreate ? COLORS.GRAY : COLORS.SECONDARY}
-              onClick={create}
-              disabled={disabledCreate}
-            >
-              create +
-            </Button>
-          )}
           <Button center onClick={toggle} style={arrowButtonStyle} hoverBackground={COLORS.BLACK}>
             {show ? <Arrows.Up /> : <Arrows.Down />}
           </Button>
