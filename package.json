@@ -1,6 +1,6 @@
 {
-  "name": "carbon",
-  "version": "4.7.20",
+  "name": "lithograph",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "dev": "next",
@@ -8,7 +8,7 @@
     "export": "next build && next export",
     "start": "next start",
     "test:e2e": "npm run cy:run --",
-    "deploy": "now -S carbon-app",
+    "deploy": "now -S lithograph",
     "prettier": "prettier --config .prettierrc --write {.,components,lib,pages}/*.js {components,lib,pages}/**/*.js",
     "lint": "eslint .",
     "contrib:add": "all-contributors add",
@@ -88,22 +88,14 @@
       "npm run contrib:build"
     ]
   },
-  "description": "Create and share beautiful images of your source code",
+  "description": "Code snippet designer",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carbon-app/carbon.git"
+    "url": "git+https://github.com/dangercove/lithograph.git"
   },
-  "bugs": {
-    "url": "https://github.com/carbon-app/carbon/issues"
-  },
-  "homepage": "https://carbon.now.sh",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/carbon-app"
   }
 }

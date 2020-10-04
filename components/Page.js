@@ -3,7 +3,6 @@ import AuthContext from './AuthContext'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
-import Announcement from './Announcement'
 import LoginButton from './LoginButton'
 
 const COLUMN = `
@@ -14,13 +13,12 @@ const COLUMN = `
 `
 class Page extends React.Component {
   render() {
-    const { children, enableHeroText, flex } = this.props
+    const { children, flex } = this.props
     return (
       <main className="main mb3">
         <Meta />
         <AuthContext>
-          <Announcement />
-          <Header enableHeroText={enableHeroText} />
+          <Header />
           <div className="login-button-container">
             <LoginButton />
           </div>

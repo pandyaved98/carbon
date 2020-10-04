@@ -25,13 +25,7 @@ class Index extends React.Component {
         <MetaLinks />
         <Either>
           <EditorContainer router={this.props.router} snippet={this.props.snippet} />
-          <p>
-            An unexpected error has occurred. Please{' '}
-            <u>
-              <a href="https://github.com/carbon-app/carbon">file an issue here</a>
-            </u>
-            .
-          </p>
+          <p>An unexpected error has occurred.</p>
         </Either>
       </Page>
     )
