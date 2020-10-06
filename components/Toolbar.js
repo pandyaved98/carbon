@@ -8,7 +8,7 @@ const Toolbar = props => (
         .toolbar {
           width: 100%;
           height: 40px;
-          margin: 1rem;
+          margin-bottom: 1rem;
           display: flex;
           position: relative;
           z-index: 3;
