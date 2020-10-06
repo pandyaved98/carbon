@@ -17,11 +17,15 @@ A code snippet designer. Focused on running locally and offline. Based on [Carbo
 
 ## Usage
 
+### Export
+
 Run an export of the editor:
 
 `npm run-script export`
 
 The output is saved in `out/`.
+
+### Serve
 
 Run an export and serve the result using `python`'s `SimpleHTTPServer`:
 
