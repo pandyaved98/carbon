@@ -10,7 +10,6 @@ import Toolbar from './Toolbar'
 import Overlay from './Overlay'
 import BackgroundSelect from './BackgroundSelect'
 import Carbon from './Carbon'
-import CopyMenu from './CopyMenu'
 import Themes from './Themes'
 import FontFace from './FontFace'
 import LanguageIcon from './svg/Language'
@@ -26,9 +25,8 @@ import {
   DEFAULT_THEME,
   FONTS,
 } from '../lib/constants'
-import { serializeState, getRouteState } from '../lib/routing'
+import { getRouteState } from '../lib/routing'
 import { unescapeHtml, formatCode, omit } from '../lib/util'
-import domtoimage from '../lib/dom-to-image'
 
 const languageIcon = <LanguageIcon />
 
@@ -83,110 +81,6 @@ class Editor extends React.Component {
 
   updateCode = code => this.updateState({ code })
   updateWidth = width => this.setState({ widthAdjustment: false, width })
-
-  getCarbonImage = async (
-    { format, type, squared = this.state.squaredImage } = { format: 'png' }
-  ) => {
-    // if safari, get image from api
-    const isPNG = format !== 'svg'
-    if (this.context.image && this.isSafari && isPNG) {
-      const themeConfig = this.getTheme()
-      // pull from custom theme highlights, or state highlights
-      const encodedState = serializeState({
-        ...this.state,
-        highlights: { ...themeConfig.highlights, ...this.state.highlights },
-      })
-      return this.context.image(encodedState)
-    }
-
-    const node = this.carbonNode.current
-
-    // const map = new Map()
-    // if (isPNG) {
-    //   node.querySelectorAll('span[role="presentation"]').forEach(node => {
-    //     if (node.innerText && node.innerText.match(/%[A-Fa-f0-9]{2}/)) {
-    //       map.set(node, node.innerHTML)
-    //       node.innerText.match(/%[A-Fa-f0-9]{2}/g).forEach(t => {
-    //         node.innerHTML = node.innerHTML.replace(t, encodeURIComponent(t))
-    //       })
-    //     }
-    //   })
-    // }
-
-    const width = node.offsetWidth
-    const height = squared ? node.offsetWidth : node.offsetHeight
-
-    const config = {
-      style: {
-        transform: `scale(1)`,
-        'transform-origin': 'center',
-        background: squared ? this.state.backgroundColor : 'none',
-      },
-      filter: n => {
-        if (n.className) {
-          const className = String(n.className)
-          if (className.includes('eliminateOnRender')) {
-            return false
-          }
-          if (className.includes('CodeMirror-cursors')) {
-            return false
-          }
-        }
-        return true
-      },
-      width,
-      height,
-    }
-
-    // current font-family used
-    const fontFamily = this.state.fontFamily
-    try {
-      // TODO consolidate type/format to only use one param
-      if (type === 'objectURL') {
-        if (format === 'svg') {
-          return domtoimage
-            .toSvg(node, config)
-            .then(dataUrl =>
-              dataUrl
-                .replace(/&nbsp;/g, '&#160;')
-                // https://github.com/tsayen/dom-to-image/blob/fae625bce0970b3a039671ea7f338d05ecb3d0e8/src/dom-to-image.js#L551
-                .replace(/%23/g, '#')
-                .replace(/%0A/g, '\n')
-                // https://stackoverflow.com/questions/7604436/xmlparseentityref-no-name-warnings-while-loading-xml-into-a-php-file
-                .replace(/&(?!#?[a-z0-9]+;)/g, '&amp;')
-                // remove other fonts which are not used
-                .replace(
-                  new RegExp('@font-face\\s+{\\s+font-family: (?!"*' + fontFamily + ').*?}', 'g'),
-                  ''
-                )
-            )
-            .then(uri => uri.slice(uri.indexOf(',') + 1))
-            .then(data => new Blob([data], { type: 'image/svg+xml' }))
-            .then(data => window.URL.createObjectURL(data))
-        }
-
-        return await domtoimage.toBlob(node, config).then(blob => window.URL.createObjectURL(blob))
-      }
-
-      if (type === 'blob') {
-        return await domtoimage.toBlob(node, config)
-      }
-
-      // Twitter needs regular dataurls
-      return await domtoimage.toPng(node, config)
-    } finally {
-      // map.forEach((value, node) => (node.innerHTML = value))
-    }
-  }
-
-  copyImage = () =>
-    this.getCarbonImage({ format: 'png', type: 'blob' }).then(blob =>
-      navigator.clipboard.write([
-        new window.ClipboardItem({
-          'image/png': blob,
-        }),
-      ])
-    )
 
   updateSetting = (key, value) => {
     this.updateState({ [key]: value })
@@ -314,12 +208,8 @@ class Editor extends React.Component {
               resetDefaultSettings={this.resetDefaultSettings}
               format={this.format}
               applyPreset={this.applyPreset}
-              getCarbonImage={this.getCarbonImage}
             />
             <div id="style-editor-button" />
-            <div className="buttons">
-              <CopyMenu copyImage={this.copyImage} carbonRef={this.carbonNode.current} />
-            </div>
           </div>
         </Toolbar>
 
