@@ -28,32 +28,4 @@ describe('Basic', () => {
     cy.location().its('pathname').should('eq', '/')
     cy.get('.container-bg .bg').should('have.css', 'background-color', 'rgb(171, 184, 195)')
   })
-
-  it("Should contain id's for CLI integrations to use", () => {
-    cy.get('#export-container').should('have.length', 1)
-    cy.get('.export-container').should('have.length', 1)
-    cy.get('#export-menu').should('have.length', 1)
-    cy.get('#export-menu').click()
-    cy.get('#export-png').should('have.length', 1)
-    cy.get('#export-svg').should('have.length', 1)
-  })
-
-  /*
-   * This test should only be run locally since it actually downloads a file
-   * for verification.
-   */
-  it.skip('Should download a PNGs and SVGs', () => {
-    cy.visit('/')
-    editorVisible()
-
-    cy.contains('span[type="button"]', 'Save Image').click()
-    cy.get('#downshift-2-item-0').click()
-
-    cy.wait(1000)
-
-    cy.contains('span[type="button"]', 'Save Image').click()
-    cy.get('#downshift-2-item-1').click()
-
-    cy.wait(1000)
-  })
 })
