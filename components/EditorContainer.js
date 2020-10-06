@@ -3,7 +3,6 @@ import React from 'react'
 import Router from 'next/router'
 
 import Editor from './Editor'
-import Toasts from './Toasts'
 
 import { THEMES } from '../lib/constants'
 import { updateRouteState } from '../lib/routing'
@@ -22,21 +21,6 @@ function onReset() {
   }
 }
 
-function toastsReducer(curr, action) {
-  switch (action.type) {
-    case 'ADD': {
-      if (!curr.find(t => t.children === action.toast.children)) {
-        return curr.concat(action.toast)
-      }
-      return curr
-    }
-    case 'SET': {
-      return action.toasts
-    }
-  }
-  throw new Error('Unsupported action')
-}
-
 function EditorContainer(props) {
   const [themes, updateThemes] = React.useState(THEMES)
 
@@ -53,7 +37,6 @@ function EditorContainer(props) {
 
   // XXX use context
   const [snippet, setSnippet] = React.useState(props.snippet || null)
-  const [toasts, setToasts] = React.useReducer(toastsReducer, [])
 
   const snippetId = snippet && snippet.id
   React.useEffect(() => {
@@ -71,14 +54,12 @@ function EditorContainer(props) {
 
   return (
     <>
-      <Toasts toasts={toasts} />
       <Editor
         {...props}
         themes={themes}
         updateThemes={updateThemes}
         snippet={snippet}
         setSnippet={setSnippet}
-        setToasts={setToasts}
         onUpdate={onEditorUpdate}
         onReset={onReset}
       />
