@@ -27,7 +27,7 @@ The output is saved in `out/`.
 
 ### Serve
 
-Run an export and serve the result using `python`'s `SimpleHTTPServer`:
+Run an export and serve the result using Python's SimpleHTTPServer:
 
 `npm run-script export && pushd out/; python -m SimpleHTTPServer; popd`
 
