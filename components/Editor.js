@@ -18,7 +18,6 @@ import {
   LANGUAGE_MIME_HASH,
   LANGUAGE_MODE_HASH,
   LANGUAGE_NAME_HASH,
-  COLORS,
   DEFAULT_CODE,
   DEFAULT_SETTINGS,
   DEFAULT_LANGUAGE,
@@ -237,13 +236,6 @@ class Editor extends React.Component {
         <FontFace {...config} />
         <style jsx>
           {`
-            .editor {
-              background: ${COLORS.BLACK};
-              border: 3px solid ${COLORS.SECONDARY};
-              border-radius: 8px;
-              padding: 16px;
-            }
-
             .buttons {
               display: flex;
               margin-left: auto;
