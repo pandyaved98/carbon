@@ -33,7 +33,6 @@ import domtoimage from '../lib/dom-to-image'
 const languageIcon = <LanguageIcon />
 
 const getConfig = omit(['code'])
-const unsplashPhotographerCredit = /\n\n\/\/ Photo by.+?on Unsplash/
 
 class Editor extends React.Component {
   state = {
@@ -224,9 +223,7 @@ class Editor extends React.Component {
     if (photographer) {
       this.updateState(({ code = DEFAULT_CODE }) => ({
         ...changes,
-        code:
-          code.replace(unsplashPhotographerCredit, '') +
-          `\n\n// Photo by ${photographer.name} on Unsplash`,
+        code: code,
         preset: null,
       }))
     } else {

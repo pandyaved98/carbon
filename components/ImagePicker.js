@@ -4,7 +4,6 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 import Input from './Input'
 import { Link } from './Meta'
 import { fileToDataURL } from '../lib/util'
-import ApiContext from './ApiContext'
 
 const getCroppedImg = (imageDataURL, pixelCrop) => {
   const canvas = document.createElement('canvas')
@@ -43,7 +42,6 @@ const INITIAL_STATE = {
 }
 
 export default class ImagePicker extends React.Component {
-  static contextType = ApiContext
   static getDerivedStateFromProps(nextProps, state) {
     if (state.crop) {
       // update crop for editor container aspect-ratio change
