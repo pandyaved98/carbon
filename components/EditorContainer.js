@@ -1,12 +1,9 @@
 // Theirs
 import React from 'react'
 import Router from 'next/router'
-import { useAsyncCallback } from 'actionsack'
 
 import Editor from './Editor'
 import Toasts from './Toasts'
-import { useAPI } from './ApiContext'
-import { useAuth } from './AuthContext'
 
 import { THEMES } from '../lib/constants'
 import { updateRouteState } from '../lib/routing'
@@ -42,9 +39,6 @@ function toastsReducer(curr, action) {
 
 function EditorContainer(props) {
   const [themes, updateThemes] = React.useState(THEMES)
-  const api = useAPI()
-  const user = useAuth()
-  const [update, { loading }] = useAsyncCallback(api.snippet.update)
 
   React.useEffect(() => {
     const storedThemes = getThemes(localStorage) || []
@@ -71,34 +65,8 @@ function EditorContainer(props) {
   }, [snippetId, props.router])
 
   function onEditorUpdate(state) {
-    if (loading) {
-      return
-    }
-
-    if (!user) {
-      updateRouteState(props.router, state)
-      saveSettings(state)
-    } else {
-      const updates = state
-      if (!snippet) {
-        update(snippetId, updates).then(newSnippet => {
-          if (newSnippet && newSnippet.id) {
-            setSnippet(newSnippet)
-            setToasts({
-              type: 'ADD',
-              toast: { children: 'Snippet saved!', closable: true },
-            })
-          }
-        })
-      } else if (snippet.userId === user.uid) {
-        update(snippetId, updates).then(() => {
-          setToasts({
-            type: 'ADD',
-            toast: { children: 'Snippet saved!', closable: true },
-          })
-        })
-      }
-    }
+    updateRouteState(props.router, state)
+    saveSettings(state)
   }
 
   return (

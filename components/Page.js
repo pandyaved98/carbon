@@ -1,9 +1,7 @@
 import React from 'react'
-import AuthContext from './AuthContext'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
-import LoginButton from './LoginButton'
 
 const COLUMN = `
   display: flex;
@@ -17,14 +15,8 @@ class Page extends React.Component {
     return (
       <main className="main mb3">
         <Meta />
-        <AuthContext>
-          <Header />
-          <div className="login-button-container">
-            <LoginButton />
-          </div>
-          <div className="page">{children}</div>
-        </AuthContext>
-
+        <Header />
+        <div className="page">{children}</div>
         <Footer />
 
         <style jsx>
@@ -32,11 +24,6 @@ class Page extends React.Component {
             .main {
               ${flex ? COLUMN : ''}
               margin-top: 6rem;
-            }
-            .login-button-container {
-              position: absolute;
-              top: 1.4rem;
-              right: 1rem;
             }
             @media (min-width: 1024px) {
               .main {

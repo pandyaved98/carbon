@@ -2,10 +2,8 @@
 import React from 'react'
 import Dropzone from 'dropperx'
 import debounce from 'lodash.debounce'
-import dynamic from 'next/dynamic'
 
 // Ours
-import ApiContext from './ApiContext'
 import Dropdown from './Dropdown'
 import Settings from './Settings'
 import Toolbar from './Toolbar'
@@ -14,7 +12,6 @@ import BackgroundSelect from './BackgroundSelect'
 import Carbon from './Carbon'
 import CopyMenu from './CopyMenu'
 import Themes from './Themes'
-import TweetButton from './TweetButton'
 import FontFace from './FontFace'
 import LanguageIcon from './svg/Language'
 import {
@@ -30,24 +27,17 @@ import {
   FONTS,
 } from '../lib/constants'
 import { serializeState, getRouteState } from '../lib/routing'
-import { getSettings, unescapeHtml, formatCode, omit } from '../lib/util'
+import { unescapeHtml, formatCode, omit } from '../lib/util'
 import domtoimage from '../lib/dom-to-image'
 
 const languageIcon = <LanguageIcon />
-
-const SnippetToolbar = dynamic(() => import('./SnippetToolbar'), {
-  loading: () => null,
-})
 
 const getConfig = omit(['code'])
 const unsplashPhotographerCredit = /\n\n\/\/ Photo by.+?on Unsplash/
 
 class Editor extends React.Component {
-  static contextType = ApiContext
-
   state = {
     ...DEFAULT_SETTINGS,
-    ...this.props.snippet,
     loading: true,
   }
 
@@ -55,10 +45,6 @@ class Editor extends React.Component {
     const { queryState } = getRouteState(this.props.router)
 
     const newState = {
-      // IDEA: we could create an interface for loading this config, so that it looks identical
-      // whether config is loaded from localStorage, gist, or even something like IndexDB
-      // Load options from gist or localStorage
-      ...(this.props.snippet ? null : getSettings(localStorage)),
       // and then URL params
       ...queryState,
       loading: false,
@@ -194,12 +180,6 @@ class Editor extends React.Component {
     }
   }
 
-  tweet = () => {
-    this.getCarbonImage({ format: 'png' }).then(
-      this.context.tweet.bind(null, this.state.code || DEFAULT_CODE)
-    )
-  }
-
   copyImage = () =>
     this.getCarbonImage({ format: 'png', type: 'blob' }).then(blob =>
       navigator.clipboard.write([
@@ -284,28 +264,6 @@ class Editor extends React.Component {
         // create toast here in the future
       })
 
-  handleSnippetCreate = () =>
-    this.context.snippet
-      .create(this.state)
-      .then(data => this.props.setSnippet(data))
-      .then(() =>
-        this.props.setToasts({
-          type: 'SET',
-          toasts: [{ children: 'Snippet duplicated!', timeout: 3000 }],
-        })
-      )
-
-  handleSnippetDelete = () =>
-    this.context.snippet
-      .delete(this.props.snippet.id)
-      .then(() => this.props.setSnippet(null))
-      .then(() =>
-        this.props.setToasts({
-          type: 'SET',
-          toasts: [{ children: 'Snippet deleted', timeout: 3000 }],
-        })
-      )
-
   render() {
     const {
       highlights,
@@ -364,7 +322,6 @@ class Editor extends React.Component {
             <div id="style-editor-button" />
             <div className="buttons">
               <CopyMenu copyImage={this.copyImage} carbonRef={this.carbonNode.current} />
-              <TweetButton onClick={this.tweet} />
             </div>
           </div>
         </Toolbar>
@@ -390,15 +347,6 @@ class Editor extends React.Component {
             </Overlay>
           )}
         </Dropzone>
-        {this.props.snippet && (
-          <SnippetToolbar
-            snippet={this.props.snippet}
-            onCreate={this.handleSnippetCreate}
-            onDelete={this.handleSnippetDelete}
-            name={config.name}
-            onChange={this.updateSetting}
-          />
-        )}
         <FontFace {...config} />
         <style jsx>
           {`

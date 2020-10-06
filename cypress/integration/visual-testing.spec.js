@@ -7,7 +7,7 @@ describe.skip('Visual regression testing', () => {
       cy.eyesOpen({
         appName: 'Carbon',
         testName: 'Button',
-        browser: environment
+        browser: environment,
       })
       cy.visit('/')
     })
@@ -20,21 +20,12 @@ describe.skip('Visual regression testing', () => {
       cy.eyesClose()
     })
 
-    it('test export button', () => {
-      cy.get('[data-cy=export-button]').click()
-      cy.eyesCheckWindow({
-        tag: 'export button',
-        target: 'region',
-        selector: '.page'
-      })
-    })
-
     it('test display button', () => {
       cy.get('[data-cy=display]').click()
       cy.eyesCheckWindow({
         tag: 'display button',
         target: 'region',
-        selector: '.page'
+        selector: '.page',
       })
     })
 
@@ -46,7 +37,7 @@ describe.skip('Visual regression testing', () => {
       cy.eyesCheckWindow({
         tag: 'color button',
         target: 'region',
-        selector: '.page'
+        selector: '.page',
       })
     })
   })
@@ -56,7 +47,7 @@ describe.skip('Visual regression testing', () => {
       cy.eyesOpen({
         appName: 'Carbon',
         testName: 'Syntax',
-        browser: environment
+        browser: environment,
       })
     })
 
@@ -67,7 +58,7 @@ describe.skip('Visual regression testing', () => {
     const cases = [
       ['JSON', "/?code={name:'Andrew',age:30}&l=application%2Fjson"],
       ['C#', '/?code=class Program { static void Main(){ do }}&l=text%2Fx-csharp'],
-      ['C++', '/?l=text%2Fx-c%2B%2Bsrc&code=for(size_t i=0 ;i<length; i%2B%2B){}']
+      ['C++', '/?l=text%2Fx-c%2B%2Bsrc&code=for(size_t i=0 ;i<length; i%2B%2B){}'],
     ]
 
     cases.forEach(([language, example]) => {
@@ -76,7 +67,7 @@ describe.skip('Visual regression testing', () => {
         cy.eyesCheckWindow({
           tag: language,
           target: 'region',
-          selector: '.page'
+          selector: '.page',
         })
       })
     })
@@ -87,7 +78,7 @@ describe.skip('Visual regression testing', () => {
       cy.eyesOpen({
         appName: 'Carbon',
         testName: 'Syntax',
-        browser: environment
+        browser: environment,
       })
     })
 
@@ -98,7 +89,7 @@ describe.skip('Visual regression testing', () => {
     const cases = [
       ['JSON', "/?code={name:'Andrew',age:30}&l=application%2Fjson"],
       ['C#', '/?code=class Program { static void Main(){ do }}&l=text%2Fx-csharp'],
-      ['C++', '/?l=text%2Fx-c%2B%2Bsrc&code=for(size_t i=0 ;i<length; i%2B%2B){}']
+      ['C++', '/?l=text%2Fx-c%2B%2Bsrc&code=for(size_t i=0 ;i<length; i%2B%2B){}'],
     ]
 
     cases.forEach(([language, example]) => {
@@ -107,7 +98,7 @@ describe.skip('Visual regression testing', () => {
         cy.eyesCheckWindow({
           tag: language,
           target: 'region',
-          selector: '.page'
+          selector: '.page',
         })
       })
     })
