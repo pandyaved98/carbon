@@ -29,7 +29,7 @@ The output is saved in `out/`.
 
 Run an export and serve the result using Python's SimpleHTTPServer:
 
-`npm run-script export && pushd out/; python -m SimpleHTTPServer; popd`
+`npm run-script export && (pushd out/; python -m SimpleHTTPServer; popd)`
 
 ## License
 
