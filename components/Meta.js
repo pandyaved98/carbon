@@ -4,6 +4,7 @@ import { THEMES, THEMES_HASH, COLORS } from '../lib/constants'
 import Reset from './style/Reset'
 import Font from './style/Font'
 import Typography from './style/Typography'
+import Align from './style/Align'
 
 const HIGHLIGHTS_ONLY = ['shades-of-purple', 'vscode', 'a11y-dark']
 const LOCAL_STYLESHEETS = ['one-light', 'one-dark', 'verminal', 'night-owl', 'nord', 'synthwave-84']
@@ -70,6 +71,7 @@ export default React.memo(function Meta() {
       <Reset />
       <Font />
       <Typography />
+      <Align />
     </React.Fragment>
   )
 })
