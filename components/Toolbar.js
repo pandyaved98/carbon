@@ -6,11 +6,11 @@ const Toolbar = props => (
     <style jsx>
       {`
         .toolbar {
-          width: 100%;
           height: 40px;
-          margin-bottom: 1rem;
           display: flex;
-          position: relative;
+          top: 16px;
+          left: 16px;
+          position: absolute;
           z-index: 3;
           font-size: 14px;
         }
