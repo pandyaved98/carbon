@@ -350,12 +350,10 @@ class Carbon extends React.PureComponent {
           {`
             .section,
             .export-container {
-              height: 100%;
               display: flex;
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              overflow: hidden;
             }
           `}
         </style>

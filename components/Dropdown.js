@@ -151,6 +151,7 @@ const DropdownContainer = ({ children, innerRef, ...rest }) => {
       <style jsx>
         {`
           .dropdown-container {
+            background: ${COLORS.BLACK};
             position: relative;
             cursor: pointer;
             user-select: none;
@@ -170,6 +171,7 @@ const DropdownIcon = ({ children, isOpen }) => {
         <style jsx>
           {`
             .dropdown-icon {
+              background: ${COLORS.BLACK};
               position: absolute;
               left: -${isOpen ? 38 : 39}px;
               display: flex;

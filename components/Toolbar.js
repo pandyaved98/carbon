@@ -10,7 +10,7 @@ const Toolbar = props => (
           display: flex;
           top: 16px;
           left: 16px;
-          position: absolute;
+          position: fixed;
           z-index: 3;
           font-size: 14px;
         }
