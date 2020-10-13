@@ -25,7 +25,7 @@ import {
   FONTS,
 } from '../lib/constants'
 import { getRouteState } from '../lib/routing'
-import { unescapeHtml, formatCode, omit } from '../lib/util'
+import { getSettings, unescapeHtml, formatCode, omit } from '../lib/util'
 
 const languageIcon = <LanguageIcon />
 
@@ -41,6 +41,7 @@ class Editor extends React.Component {
     const { queryState } = getRouteState(this.props.router)
 
     const newState = {
+      ...getSettings(localStorage),
       // and then URL params
       ...queryState,
       loading: false,
