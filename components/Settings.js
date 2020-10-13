@@ -9,10 +9,9 @@ import Input from './Input'
 import Toggle from './Toggle'
 import Popout, { managePopout } from './Popout'
 import Button from './Button'
-import Presets from './Presets'
 import MenuButton from './MenuButton'
-import { COLORS, DEFAULT_PRESETS, DEFAULT_SETTINGS, DEFAULT_WIDTHS } from '../lib/constants'
-import { toggle, getPresets, savePresets, fileToJSON } from '../lib/util'
+import { COLORS, DEFAULT_SETTINGS, DEFAULT_WIDTHS } from '../lib/constants'
+import { fileToJSON } from '../lib/util'
 import SettingsIcon from './svg/Settings'
 
 function KeyboardShortcut({ trigger, handle }) {
@@ -263,24 +262,13 @@ const invalidSetting = (v, k) =>
 
 class Settings extends React.PureComponent {
   state = {
-    presets: DEFAULT_PRESETS,
     selectedMenu: 'Window',
-    showPresets: true,
     previousSettings: null,
     widthChanging: false,
   }
 
   settingsRef = React.createRef()
   menuRef = React.createRef()
-
-  componentDidMount() {
-    const storedPresets = getPresets(localStorage) || []
-    this.setState(({ presets }) => ({
-      presets: [...storedPresets, ...presets],
-    }))
-  }
-
-  togglePresets = () => this.setState(toggle('showPresets'))
 
   selectMenu = selectedMenu => () => this.setState({ selectedMenu })
 
@@ -316,32 +304,6 @@ class Settings extends React.PureComponent {
   }
 
   getSettingsFromProps = () => omitBy(this.props, invalidSetting)
-
-  applyPreset = preset => {
-    const previousSettings = this.getSettingsFromProps()
-
-    this.props.applyPreset(preset)
-
-    this.setState({ previousSettings })
-  }
-
-  undoPreset = () => {
-    this.props.applyPreset({ ...this.state.previousSettings, id: null })
-    this.setState({ previousSettings: null })
-  }
-
-  removePreset = id => {
-    if (this.props.preset === id) {
-      this.props.onChange('preset', null)
-      this.setState({ previousSettings: null })
-    }
-    this.setState(
-      ({ presets }) => ({ presets: presets.filter(p => p.id !== id) }),
-      this.savePresets
-    )
-  }
-
-  savePresets = () => savePresets(this.state.presets.filter(p => p.custom))
 
   renderContent = () => {
     switch (this.state.selectedMenu) {
@@ -395,8 +357,8 @@ class Settings extends React.PureComponent {
   }
 
   render() {
-    const { selectedMenu, showPresets, presets, previousSettings, widthChanging } = this.state
-    const { preset, isVisible, toggleVisibility } = this.props
+    const { isVisible, toggleVisibility } = this.props
+    const { selectedMenu, widthChanging } = this.state
 
     return (
       <div className="settings-container" ref={this.settingsRef}>
@@ -422,16 +384,6 @@ class Settings extends React.PureComponent {
             left: widthChanging ? this.settingPosition.left : 'initial',
           }}
         >
-          <Presets
-            show={showPresets}
-            presets={presets}
-            selected={preset}
-            toggle={this.togglePresets}
-            apply={this.applyPreset}
-            undo={this.undoPreset}
-            remove={this.removePreset}
-            applied={!!previousSettings}
-          />
           <div className="settings-bottom">
             <div className="settings-menu" ref={this.menuRef} tabIndex={-1}>
               <MenuButton name="Window" select={this.selectMenu} selected={selectedMenu} />
