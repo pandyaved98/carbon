@@ -26,9 +26,6 @@ import {
 const SelectionEditor = dynamic(() => import('./SelectionEditor'), {
   loading: () => null,
 })
-const Watermark = dynamic(() => import('./svg/Watermark'), {
-  loading: () => null,
-})
 
 function searchLanguage(l) {
   return LANGUAGE_NAME_HASH[l] || LANGUAGE_MODE_HASH[l] || LANGUAGE_MIME_HASH[l]
@@ -197,7 +194,6 @@ class Carbon extends React.PureComponent {
           onGutterClick={this.props.onGutterClick}
           onSelection={this.onSelection}
         />
-        {config.watermark && <Watermark light={light} />}
         <div className="container-bg">
           <div className="white eliminateOnRender" />
           <div className="alpha eliminateOnRender" />
@@ -217,14 +213,6 @@ class Carbon extends React.PureComponent {
               max-width: ${config.widthAdjustment ? '1024px' : 'none'};
               ${config.widthAdjustment ? '' : `width: ${config.width}px;`}
               padding: ${config.paddingVertical} ${config.paddingHorizontal};
-            }
-
-            .container :global(.watermark) {
-              fill-opacity: 0.75;
-              position: absolute;
-              z-index: 2;
-              bottom: calc(${config.paddingVertical} + 16px);
-              right: calc(${config.paddingHorizontal} + 16px);
             }
 
             .container .container-bg {

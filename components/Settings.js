@@ -30,7 +30,6 @@ function WindowSettings({
   windowControls,
   widthAdjustment,
   width,
-  watermark,
   onWidthChanging,
   onWidthChanged,
 }) {
@@ -93,7 +92,6 @@ function WindowSettings({
           />
         </div>
       )}
-      <Toggle label="Watermark" enabled={watermark} onChange={onChange.bind(null, 'watermark')} />
       <style jsx>
         {`
           .width-row {
@@ -322,7 +320,6 @@ class Settings extends React.PureComponent {
             windowControls={this.props.windowControls}
             widthAdjustment={this.props.widthAdjustment}
             width={this.props.width}
-            watermark={this.props.watermark}
           />
         )
       case 'Editor':
