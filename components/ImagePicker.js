@@ -170,30 +170,11 @@ export default class ImagePicker extends React.Component {
       <div>
         <div className="choose-image">
           <span>Upload a background image:</span>
-          <button
-            className={this.state.mode === 'file' ? 'active' : 'none'}
-            onClick={this.selectMode.bind(this, 'file')}
-          >
-            File
-          </button>
-          <button
-            className={this.state.mode === 'url' ? 'active' : 'none'}
-            onClick={this.selectMode.bind(this, 'url')}
-          >
-            URL
-          </button>
-          {this.state.mode === 'file' ? (
-            <Input
-              type="file"
-              accept="image/png,image/x-png,image/jpeg,image/jpg"
-              onChange={this.uploadImage}
-            />
-          ) : (
-            <form onSubmit={this.handleURLInput}>
-              <Input type="text" title="Background Image" placeholder="Image URL…" align="left" />
-              <button type="submit">Upload</button>
-            </form>
-          )}
+          <Input
+            type="file"
+            accept="image/png,image/x-png,image/jpeg,image/jpg"
+            onChange={this.uploadImage}
+          />
           {this.state.error && <span className="error">{this.state.error}</span>}
         </div>
         <style jsx>
